@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Navigate_to_timezone_app_folder
-        run: cd timezone-app
+        run: cd ../../timezone-app
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Node.js
