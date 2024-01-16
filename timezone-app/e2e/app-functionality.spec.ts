@@ -143,7 +143,7 @@ test("Should sort the table by local time", async ({ page }) => {
 
 //This test should fail because of the current bug
 test("Should sort the table after deleting a record", async ({ page }) => {
-  const testData = [{ label: "1", timezone: "America/New_York" }, { label: "2", timezone: "America/Los_Angeles" }, { label: "3", timezone: "America/Chicago" }]
+  const testData = [{ label: "1", timezone: "America/New_York" }, { label: "2", timezone: "America/Los_Angeles" }, { label: "3", timezone: "America/Chicago" }, { label: "4", timezone: "America/Juneau"}]
   for (const data of testData) {
     await addNewEntry(page, data.label, data.timezone)
   }
@@ -171,7 +171,7 @@ test("Should sort the table after deleting a record", async ({ page }) => {
 //This test should fail because of the current bug
 test("Should change local entry when browser timezone changes", async ({ page }) => {
   const browser = await chromium.launch()
-  const context = await browser.newContext()
+  const context = await browser.newContext({ timezoneId: 'America/Vancouver'})
   const page1 = await context.newPage()
   await page1.goto(domain)
 
