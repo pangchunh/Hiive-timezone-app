@@ -35,5 +35,7 @@ jobs:
         run: npm install
       - name: Install playwright browser
         run: npx playwright install
+      - name: run dev server
+        run: npm run dev
       - name: Run tests
         run: npm run e2e
