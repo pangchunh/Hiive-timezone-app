@@ -111,7 +111,7 @@ test("Should only delete the record that the delete button is associated with", 
   const newRecord2 = await page.locator('tr:has(td:has(div:has-text("Testing 1")))').last()
   const deleteButton1 = newRecord1.locator(locators.deleteButtonTdLocator)
   await deleteButton1.click()
-  
+
   await expect(newRecord1).not.toBeVisible()
   await expect(newRecord2).toBeVisible()
 })
@@ -157,7 +157,7 @@ test("Should sort the table after deleting a record", async ({ page }) => {
     newTableRowsLocalTime.push(localTime)
   }
   const newSortedTableRowsLocalTime = Array.from(newTableRowsLocalTime).sort()
-  
+
   expect(newTableRowsLocalTime).toEqual(newSortedTableRowsLocalTime)
 })
 

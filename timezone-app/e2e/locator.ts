@@ -1,6 +1,6 @@
 // Locator constants for the e2e tests
 export const locators = {
-  localTableRowLocator:'tr:has(td:has(div:has-text("Local"), span:has-text("(You)")))',
+  localTableRowLocator: 'tr:has(td:has(div:has-text("Local"), span:has-text("(You)")))',
   addTimezoneButtonLocator: 'button:has-text("Add timezone")',
   labelInputLocator: 'input[name="label"]',
   timezoneSelectLocator: 'select[name="timezone"]',
@@ -12,7 +12,6 @@ export const locators = {
   tableHeaderLocator: 'th',
   tableDataLocator: 'td',
   optionLocator: 'option',
-  tableBodyRowLocator: 'tbody tr'
-
+  tableBodyRowLocator: 'tbody tr',
 }
 
