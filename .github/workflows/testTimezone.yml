@@ -3,20 +3,34 @@ name: test timezone app
 on:
   push:
     branches: [main]
+    paths:
+      - 'timezone-app/**'
+      - '.github/**'
   pull_request:
     branches: [main]
+    paths:
+      - 'timezone-app/**'
+      - '.github/**'
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: timezone-app
     steps:
-      - name: Navigate_to_timezone_app_folder
-        run: cd ../../timezone-app
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
+      - name: Cache Node modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       - name: Install dependencies
         run: npm install
       - name: Run tests
