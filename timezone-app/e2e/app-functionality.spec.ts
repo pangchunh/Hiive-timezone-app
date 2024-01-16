@@ -178,7 +178,7 @@ test("Should change local entry when browser timezone changes", async ({ page })
   //set the browser location to london
   context.setGeolocation({ latitude: 51.5072, longitude: 0.1276 })
   await page1.reload()
-  const localTableRow = page.getByRole('row').filter({ hasText: 'Local(You)' })
+  const localTableRow = page1.getByRole('row').filter({ hasText: 'Local(You)' })
   const localTime = await localTableRow.getByRole('cell').nth(2).innerText()
   const browserTime = new Date().toLocaleTimeString([], { 'timeStyle': 'short', timeZone: 'Europe/London' })
   expect(localTime).toBe(browserTime)
