@@ -1,9 +1,9 @@
 import { test, expect, Page, chromium } from '@playwright/test';
 import { locators } from './locator';
-import { addNewEntry, timezoneOptions } from './util';
+import { domain, addNewEntry, timezoneOptions } from './util';
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('localhost:3000')
+  await page.goto(domain)
 })
 
 test('Automatically create a local timezone record in the table', async ({ page }) => {
@@ -44,7 +44,7 @@ test("Should contain correct options in the timezone select", async ({ page }) =
   const addTimezoneButton = page.locator(locators.addTimezoneButtonLocator)
   await addTimezoneButton.click()
   const timezoneSelect = await page.locator(locators.timezoneSelectLocator)
-  const timezoneSelectOptions = await timezoneSelect.locator('option').allInnerTexts()
+  const timezoneSelectOptions = await timezoneSelect.locator(locators.optionLocator).allInnerTexts()
   for (const timezone of timezoneOptions) {
     expect(timezoneSelectOptions).toContain(timezone.label)
   }
@@ -122,16 +122,15 @@ test("Should sort the table by local time", async ({ page }) => {
   for (const data of testData) {
     await addNewEntry(page, data.label, data.timezone)
   }
-  const table = page.locator('table')
-  const tableRows = await table.locator('tbody tr').all()
+  const table = page.locator(locators.tableLocator)
+  const tableRows = await table.locator(locators.tableBodyRowLocator).all()
   const tableRowsLocalTime = []
   for (const row of tableRows) {
     const localTime = await row.locator(locators.localTimeTdLocator).innerText()
     tableRowsLocalTime.push(localTime)
   }
   const sortedTableRowsLocalTime = Array.from(tableRowsLocalTime).sort()
-  console.log('sortedTableRowsLocalTime', sortedTableRowsLocalTime)
-  console.log('tableRowsLocalTime', tableRowsLocalTime)
+
   expect(tableRowsLocalTime).toEqual(sortedTableRowsLocalTime)
 })
 
@@ -141,8 +140,8 @@ test("Should sort the table after deleting a record", async ({ page }) => {
   for (const data of testData) {
     await addNewEntry(page, data.label, data.timezone)
   }
-  const table = page.locator('table')
-  const tableRows = await table.locator('tbody tr').all()
+  const table = page.locator(locators.tableLocator)
+  const tableRows = await table.locator(locators.tableBodyRowLocator).all()
   const tableRowsLocalTime = []
   for (const row of tableRows) {
     const localTime = await row.locator(locators.localTimeTdLocator).innerText()
@@ -151,15 +150,14 @@ test("Should sort the table after deleting a record", async ({ page }) => {
   const newRecord1 = await page.locator('tr:has(td:has(div:has-text("1")))')
   const deleteButton1 = newRecord1.locator(locators.deleteButtonTdLocator)
   await deleteButton1.click()
-  const newTableRows = await table.locator('tbody tr').all()
+  const newTableRows = await table.locator(locators.tableBodyRowLocator).all()
   const newTableRowsLocalTime = []
   for (const row of newTableRows) {
     const localTime = await row.locator(locators.localTimeTdLocator).innerText()
     newTableRowsLocalTime.push(localTime)
   }
   const newSortedTableRowsLocalTime = Array.from(newTableRowsLocalTime).sort()
-  console.log('newSortedTableRowsLocalTime', newSortedTableRowsLocalTime)
-  console.log('newTableRowsLocalTime', newTableRowsLocalTime)
+  
   expect(newTableRowsLocalTime).toEqual(newSortedTableRowsLocalTime)
 })
 
@@ -168,12 +166,12 @@ test("Should change local entry when browser timezone changes", async ({ page })
   const browser = await chromium.launch()
   const context = await browser.newContext()
   const page1 = await context.newPage()
-  await page1.goto('localhost:3000')
+  await page1.goto(domain)
 
   //set the browser location to london
   context.setGeolocation({ latitude: 51.5072, longitude: 0.1276 })
   await page1.reload()
-  const table = page1.locator('table')
+  const table = page1.locator(locators.tableLocator)
   const localTableRow = await table.locator(locators.localTableRowLocator)
   const localTime = await localTableRow.locator(locators.localTimeTdLocator).innerText()
   const browserTime = new Date().toLocaleTimeString([], { 'timeStyle': 'short', timeZone: 'Europe/London' })

@@ -1,6 +1,8 @@
 import { Page } from '@playwright/test'
 import { locators } from './locator';
 
+export const domain = 'localhost:3000'
+
 export const timezoneOptions = [
   { label: "Eastern Standard Time", value: "America/New_York" },
   { label: "Central Standard Time", value: "America/Chicago" },
@@ -9,6 +11,8 @@ export const timezoneOptions = [
   { label: "Alaska Standard Time", value: "America/Juneau" },
   { label: "Hawaii-Aleutian Standard Time", value: "Pacific/Honolulu" },
 ];
+
+export const expectedTableHeaders = ['Label', 'Timezone', 'Local Time', 'Delete']
 
 //A reusable function to add a new entry to the table in the application
 export const addNewEntry = async (page: Page, name: string, timezone: string) => {

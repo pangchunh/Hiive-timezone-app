@@ -8,6 +8,11 @@ export const locators = {
   timezoneTdLocator: 'td:nth-child(2)',
   localTimeTdLocator: 'td:nth-child(3)',
   deleteButtonTdLocator: 'td:nth-child(4) button',
+  tableLocator: 'table',
+  tableHeaderLocator: 'th',
+  tableDataLocator: 'td',
+  optionLocator: 'option',
+  tableBodyRowLocator: 'tbody tr'
 
 }
 
