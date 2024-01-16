@@ -35,7 +35,9 @@ jobs:
         run: npm install
       - name: Install playwright browser
         run: npx playwright install
-      - name: run dev server
-        run: npm run dev
+      - name: Build timezone app
+        run: npm run build
+      - name: Start timezone app in background
+        run: npm run start &
       - name: Run tests
         run: npm run e2e
